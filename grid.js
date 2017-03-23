@@ -10,9 +10,14 @@ function Grid(difficulty) {
     "medium": 0.2 * 300,
     "hard": 0.3 * 1000
   };
+
+  this.minBorder = 10;
   this.maxCellSize = 50;
   this.widthCount = 10;
   this.heightCount = 10;
+
+  this.borderLeft = (windowWidth - (this.maxCellSize * this.widthCount)) / 2;
+  this.borderTop = (windowHeight - (this.maxCellSize * this.heightCount)) / 2;
 
   this.generateRandomNumbers = function(count, a, b) {
     var res = [];
@@ -94,8 +99,8 @@ function Grid(difficulty) {
 
 
   this.draw = function() {
-    var gridX = Math.floor(mouseX / this.maxCellSize);
-    var gridY = Math.floor(mouseY / this.maxCellSize);
+    var gridX = Math.floor((mouseX - this.borderLeft) / this.maxCellSize);
+    var gridY = Math.floor((mouseY - this.borderTop) / this.maxCellSize);
     for (var y = 0; y < this.matrix.length; y++) {
       for (var x = 0; x < this.matrix[y].length; x++) {
         var hover = false;
@@ -107,8 +112,8 @@ function Grid(difficulty) {
         }
         this.matrix[y][x].hover = hover;
         this.matrix[y][x].draw(
-          x * this.maxCellSize,
-          y * this.maxCellSize,
+          this.borderLeft + (x * this.maxCellSize),
+          this.borderTop + (y * this.maxCellSize),
           this.maxCellSize
         );
       }
